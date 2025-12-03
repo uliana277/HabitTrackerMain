@@ -9,21 +9,17 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class HabitFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
          return [
-            'name' => fake()->name(),
+            'name' => fake()->word(),
             'description' => fake()->sentence(),
-            'start_date' => fake()->dateTime(),
-            'end_date' => fake()->dateTime(),
-            'status' => fake()->randomElement(['completed', 'uncompleted']),
-            'progress' => fake()->randomElement(0, 100),
-
+            'start' => fake()->date(),
+            'end' => fake()->date(),
+            
         ];
     }
+    protected $model = \App\Models\Habit::class;
+
 }
+  

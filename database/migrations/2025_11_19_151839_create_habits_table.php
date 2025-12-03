@@ -12,17 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('habits', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('description');
-            $table->date('start_date');
-            $table->date('end_date');
-            $table->enum('status', ['completed', 'uncompleted']);
-            $table->integer('progress');
-            $table->timestamps();
-
-        });
-    }
+    $table->id();
+    $table->string('name');
+    $table->text('description');
+    $table->date('start');
+    $table->date('end');
+    $table->timestamps();
+});
+}
 
     /**
      * Reverse the migrations.
