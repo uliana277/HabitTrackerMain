@@ -12,4 +12,8 @@ class Habit extends Model
         'start',
         'end'
     ];
+    public function logs()
+{
+    return $this->hasMany(HabitLog::class);
+}
 }

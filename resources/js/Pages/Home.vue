@@ -48,21 +48,25 @@ const addHabit = (e) => {
     form.start = startDate;
     form.end = endDate;
 
-    habits.value.push({
-        name: form.name,
-        date: `${startDate} to ${endDate}`,
-        description: form.description,
-        isEditing: false,
-        completed: [],
-        clicked: [],
-        progress: 0,
-        tempName: form.name,
-        tempStartDate: startDate,
-        tempEndDate: endDate,
-        tempDescription: form.description,
-    });
+    form.post(route("habit.create"), {
+        onSuccess: (res) => {
 
-    form.post(route('habit.create'));
+            habits.value.push({
+                id: res.props.id,
+                name: form.name,
+                date: `${startDate} to ${endDate}`,
+                description: form.description,
+                isEditing: false,
+                completed: [],
+                clicked: [],
+                progress: 0,
+                tempName: form.name,
+                tempStartDate: startDate,
+                tempEndDate: endDate,
+                tempDescription: form.description,
+            });
+        },
+    });
 
     const habit = habits.value[habits.value.length - 1];
 
@@ -414,4 +418,3 @@ localStorage.clear();
         </div>
     </main>
 </template>
-   

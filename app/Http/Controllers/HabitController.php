@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Habit;
+use App\Models\HabitLog;
 use DateTime;
 use Illuminate\Http\Request;
-use App\Models\Habit;
-
-
-
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
 
 class HabitController extends Controller
 {
@@ -21,14 +20,16 @@ class HabitController extends Controller
             'end' => 'required|date|after_or_equal:start'
         ]);
 
-        $habit = Habit::create([
+        $Habit = Habit::create([
             'name' => $request->name,
             'description' => $request->description,
             'start' => new DateTime($request->start)->format('Y-m-d'),
             'end' => new DateTime($request->end)->format('Y-m-d')
         ]);
+
+        return Inertia::render('Home')->with("id", $Habit->id);
     }
-    public function mark(Request $request, Habit $habit)
+          public function mark(Request $request, Habit $habit)
     {
         HabitLog::updateOrCreate(
             [
@@ -43,8 +44,15 @@ class HabitController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function getHabits(): array
+    public function getHabits()
     {
-        $habits = Habit::all();
+        return Habit::with('logs')->get();
     }
+    public function index()
+    {
+        return Inertia::render('Home', [
+            "habits" => Habit::with('logs')->get()  
+        ]);
+    }
+
 }
